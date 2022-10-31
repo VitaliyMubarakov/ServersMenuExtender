@@ -1,19 +1,20 @@
 /**
- * @name Ext
+ * @name left ServersMenuExtender
  * @author i3sN
- * @description Попа пися кака.
- * @version 0.0.3
+ * @description Open your servers panel.
+ * @version 0.9.3
  */
 module.exports = class MyPlugin {
   constructor(meta) {
 
+  }
+  
+  start() {
+    //НЕ СМОТРИТЕ СЮДА! Я уже сам не понимаю смысл текста ниже...
     let body = document.getElementsByTagName("html")[0];
     let discordMenu = document.createElement("div");
     discordMenu.id = "discordMenu";
     body.prepend(discordMenu);
-
-  }
-  start() {
 
     let servers = [];
     let serversElements = [];
@@ -30,8 +31,9 @@ module.exports = class MyPlugin {
     var items = () => document.getElementsByClassName("listItem-3SmSlK");
   
     let bar = document.createElement("div");
-    let isSearch = false; //Ищет ли пользователь
+    let isSearch = false;
     let search = document.createElement("div");
+    search.className = "searchBar";
 
     const Type = { msg: -1, ls: 0, server: 1, group: {index: 2, isopen: false}, addServer: 3, servers: 4 };
 
@@ -42,41 +44,14 @@ module.exports = class MyPlugin {
     }; 
 
     updateSearchServers();
-    setTimeout(() => {
-      
-      //const PrivateChannelSortStore = BdApi.findModuleByProps("getLastSelectedChannelId", "getChannelId").getChannelId();
-      const PrivateChannelSortStore = BdApi.findModuleByProps("null", "getChannelId");
-      const msg = BdApi.findModuleByProps('getMessage', 'getMessages').getMessages(PrivateChannelSortStore);
-
-      const a = BdApi.findModuleByProps('getMessage', 'getMessages').getMessages('1035866900145639454');
-
-      // console.log(PrivateChannelSortStore);
-      // console.log(msg);
-      // console.log(window.location.pathname.split("/")[3]);
-      // console.log(httpGet("https://discord.com/api/v9/channels/799266834725208065/messages?limit=50"));
-      console.log(a);
-    }, 2000);
 
     var mutationObserver = new MutationObserver(function(mutations) {
-      // mutations.forEach(function (mutation) {
-      //   //if (!mutation?.addedNodes[0]) return;
-        
-      //   // console.log(mutation?.addedNodes[0]);
-      //   // console.log(mutation?.addedNodes[0].textContent);
-      //   // console.log(mutation?.addedNodes[0].nodeName);
-      //   console.log(mutation?.addedNodes[0].children[0]);
-      //   //let id = Object.values(mutation?.addedNodes[0])[1]?.id;
-      //   //console.log(Object.values(mutation?.addedNodes[0]));
-      //   //if (!id) continue;
-      //   //console.log(mutation?.addedNodes[0]?.parentElement.id);
-      // });
 
       for (let i = 0; i < mutations.length; i++) {
         const m = mutations[i];
         if (!m) continue;
         if (!m?.addedNodes[0]) continue;
-        //console.log("---------------------------");
-        //console.log(m?.addedNodes[0]);
+
         if (!m?.addedNodes[0].parentElement) continue;
         if (!m?.addedNodes[0].children[0]) continue;
         //console.log(m?.addedNodes[0].children[0].parentElement);
@@ -143,8 +118,6 @@ module.exports = class MyPlugin {
     </div>`
   
     bar.onclick = function () {
-      //console.log(Object.values(BdApi.findModuleByProps('getGuilds', 'getGuildCount').getGuilds()));
-      //console.log(BdApi.Webpack.getModule(BdApi.Webpack.Filters.byProps("getGuilds")).getGuilds());
       if (!isSearch) updateSearchServers();
       toggleMenu();
     };
@@ -171,7 +144,6 @@ module.exports = class MyPlugin {
     }
 
     function setMenu(is) {
-      console.log(is + " dadada");
       if (is) {
         scrollerda.style.width = "300px";
 
@@ -212,7 +184,7 @@ module.exports = class MyPlugin {
       return fileName;
     }
 
-    
+    //ЕБАТЬ ВЫ СМЕЛЫЙ...
     
     function searchByName(value) {
       updateServers();
@@ -237,8 +209,6 @@ module.exports = class MyPlugin {
       } 
 
       let keyword = value;
-      console.log("serversNames");
-      console.log(serversNames);
       let search_results = serversNames
         .filter(prof => {
             // Filter results by doing case insensitive match on name here
@@ -262,6 +232,8 @@ module.exports = class MyPlugin {
         const e = search_results[i];
         serversElements[e.i].style.order = i;
         serversElements[e.i].style.display = "flex";
+
+        serversElements[e.i].childNodes[1].firstChild.setAttribute("draggable", "false");
 
       }
       for (let i = 0; i < folders.length; i++) {
@@ -295,6 +267,8 @@ module.exports = class MyPlugin {
           folders[i].nextSibling.nextSibling.style.display = "flex";
           folders[i].nextSibling.nextSibling.style.flexDirection = "column";
           folders[i].nextSibling.nextSibling.style.height = "";
+
+          folders[i].nextSibling.style.pointerEvents = "none";
         }
       }
       function onEndSearch() {
@@ -303,6 +277,7 @@ module.exports = class MyPlugin {
           const e = serversNames[i];
           serversElements[e.i].style.order = "";
           serversElements[e.i].style.display = "flex";
+          serversElements[e.i].childNodes[1].firstChild.setAttribute("draggable", "true");
           
         }
 
@@ -310,15 +285,13 @@ module.exports = class MyPlugin {
           const e = folders[i];
           e.parentElement.style.order = "";
           e.parentElement.style.display = "flex";
-
+          e.nextSibling.style.pointerEvents = "";
           
         }
       
         return;
       }
-      
-      
-      
+    
     }
 
     function updateSearchServers() {
@@ -329,13 +302,12 @@ module.exports = class MyPlugin {
         if (!ea) continue;
 
         if (ea.parentElement.getAttribute("aria-expanded") == "false") ea.click();
-
+updateServers
       }
       setTimeout(() => {
         serversElementsInGroups = allServersElements.filter(e => (e.parentElement?.id.includes("folder-items")));
       }, 50);
 
-      
     }
 
     function updateServers() {
@@ -344,11 +316,6 @@ module.exports = class MyPlugin {
       }
       allServersElements = Array.from(document.getElementsByClassName("listItem-3SmSlK"));
       serversElements = allServersElements.filter(e => e.parentElement?.nextSibling?.className == "tutorialContainer-2jwoiB");
-
-      for (let i = 0; i < serversElements.length; i++) {
-        const e = serversElements[i];
-        e.style.order = i;
-      }
 
       servers = [];
       var MemberCountStore = BdApi.findModuleByProps('getMemberCount');
@@ -384,8 +351,6 @@ module.exports = class MyPlugin {
         AddServerBlock(arr[i], i, arr.length);
       }
     }
-
-  
     
     function AddServerBlock(parent, i, parentLenght = 1,) {
       let buttonType;
@@ -483,13 +448,10 @@ module.exports = class MyPlugin {
 
       else if (parent?.childNodes[1]?.className == "listItemWrapper-3d87LP") { // Сообщение / звонок
         parent?.classList.add("NonCentaaer");
-        //console.log("Звон");
         buttonType = Type.msg;
-        //let e = parent?.querySelectorAll('.wrapper-3kah-n')[0];
         
         str = parent?.childNodes[1]?.firstChild?.firstChild?.childNodes[3].firstChild?.getAttribute("aria-label") + "";
       }
-      //console.log(i + " ----------------");
       if(str.length > maxLength){
         str = trimFileName(str, 20, "...")
       }
@@ -533,7 +495,7 @@ module.exports = class MyPlugin {
               let context = document.querySelector(".menu-1QACrS.styleFlexible-x0_sIC");
 
               context.style.visibility = "visible";
-            }, 70);
+            }, 330);
           }
 
           ea.onclick = (e) => {
@@ -541,22 +503,19 @@ module.exports = class MyPlugin {
 
             setTimeout(() => {
               let mainFolder;
-
+              let par = e.target?.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.parentElement;
+              
               if (e.target.className == "expandedFolderIconWrapper-3RwQpD") {
-                mainFolder = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+                mainFolder = par?.parentElement;
               } else if (e.target.className == "closedFolderIconWrapper-3tRb2d") {
-                mainFolder = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+                mainFolder = par?.parentElement;
               } else {
-                mainFolder = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+                if (par) mainFolder = par;
               }
 
-              let folderItems = mainFolder.querySelectorAll("[id^='folder-items-']")[0].children;
+              let folderItems = mainFolder?.querySelectorAll("[id^='folder-items-']")[0]?.children;
               updateServers();
               AddServerBlocks(folderItems);
-              // for (let i = 0; i < folderItems.length; i++) {
-              //   const e = folderItems[i];
-              //   AddServerBlock(e, i, folderItems.length);
-              // }
               
             }, 40);
           }
@@ -571,13 +530,11 @@ module.exports = class MyPlugin {
       }
 
       serverPrefab.onmouseenter = function () {
-        //console.log("aga");
         checkType();
         FireEvent(ea, "mouseover");
       }
 
       serverPrefab.onmouseleave = function () {
-        //console.log("aga1");
         checkType();
         FireEvent(ea, "mouseout");
       }
@@ -588,7 +545,8 @@ module.exports = class MyPlugin {
 
       serverPrefab.oncontextmenu = function (e) {
         checkType();
-        if (e.target.className == "serverPrefab") {
+
+        if (e.target.parentElement.className.split(" ")[0] == "serverPrefab") {
           FireEvent(ea, "contextmenu");
         setTimeout(() => {
           let context = document.querySelector(".menu-1QACrS.styleFlexible-x0_sIC");
@@ -618,6 +576,8 @@ module.exports = class MyPlugin {
 
       e.appendChild(serverPrefab);
     }
+
+    //Понятно, даун.......
 
     function FireEvent( ElementId, EventName )
       {
@@ -681,38 +641,74 @@ module.exports = class MyPlugin {
 .animals{
    display: list-item;    
   } 
+  .tooltip-14MtrL {
+    pointerEvents: none;
+  }
     `
     darkPintStyle.id = "darkPintStyle";
-    let discordMenu = document.getElementById("discordMenu");
+
     discordMenu.appendChild(darkPintStyle);
 
   }
   
-  
-
   stop() {
     // Cleanup when disabled
-    
+    RemoveAll();
   }
 
-  
-  
 };
 
-// var MemberCountStore = BdApi.findModuleByProps('getMemberCount');
-// var Guilds = Object.values(BdApi.findModuleByProps('getGuilds').getGuilds());
-// var me = BdApi.findModuleByProps('getCurrentUser').getCurrentUser().id;
-// var sortFunction = (a, b) => {
-//     if(a.name < b.name) return -1;
-//     if(a.name > b.name) return 1;
-//     return 0;
-// };
-// var myServers = Guilds.filter((guild) => guild.ownerId === me).sort(sortFunction);
-// var external = Guilds.filter((guild) => guild.ownerId !== me).sort(sortFunction);
-// var createGuildsMap = (guilds) => guilds.map((guild) => {
-//   return `\t${guild.name}:\n${[`\t\tID: ${guild.id}`, `\t\tMembers: ${MemberCountStore.getMemberCount(guild.id)}`].join("\n")}`;
-// }).join("\n");
-// var myText = 
-// `${myServers.length ? `Owned Servers: (${myServers.length})\n${createGuildsMap(myServers)}` : ''}
-// ${external.length ? `External Servers: (${external.length})\n${createGuildsMap(external)}` : ''}
-// `
+function RemoveAll() {
+  let id = setInterval(() => {
+    let scrollerda = document.getElementsByClassName("wrapper-1_HaEi guilds-2JjMmN")[0];
+    let separatorWrapper = Array.from(document.getElementsByClassName("listItem-3SmSlK")).find(e => e.firstChild.className == "guildSeparator-a4uisj");
+    let folders = document.getElementsByClassName("expandedFolderBackground-1kSAf6");
+    const searchInput = document.getElementById("searchbar");
+
+    if (scrollerda && separatorWrapper) {
+      document.querySelectorAll('.serverPrefab').forEach(e => e.remove());
+      document.querySelector('.ownButton').parentElement.parentElement.parentElement.remove();
+      searchInput.value = "";
+      StartEvent(searchInput, "change");
+      setTimeout(() => {
+        document.querySelector('.searchBar').remove();
+        document.querySelector('#discordMenu').remove();
+
+        scrollerda.style.width = "72px";
+        for (let i = 0; i < folders.length; i++) {
+          const e = folders[i];
+          e.style.width = "48px";
+        }
+        separatorWrapper.style.width = "";
+        separatorWrapper.style.justifyContent = "";
+        separatorWrapper.style.marginLeft = "";
+
+        separatorWrapper.firstChild.style.width = "";
+
+        
+        searchInput.addEventListener("input", (e) => inputLogic(e));
+        searchInput.addEventListener("change", (e) => inputLogic(e));
+        clearInterval(id);
+      }, 200);
+      
+    } 
+
+  }, 500);
+}
+
+function StartEvent( ElementId, EventName )
+{
+    if( ElementId != null )    
+    {   
+        if( ElementId.fireEvent ) 
+        {
+            ElementId.fireEvent( 'on' + EventName );     
+        }
+        else 
+        {   
+            var evObj = document.createEvent( 'Events' );
+            evObj.initEvent( EventName, true, false );
+            ElementId.dispatchEvent( evObj );
+        }
+    }
+}
