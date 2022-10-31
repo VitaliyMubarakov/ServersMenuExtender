@@ -1,8 +1,11 @@
 /**
- * @name left ServersMenuExtender
+ * @name ServersMenuExtender
  * @author i3sN
  * @description Open your servers panel.
- * @version 0.9.3
+ * @version 1.0.3
+ * @website https://github.com/VitaliyMubarakov
+ * @source https://github.com/VitaliyMubarakov/Menu/
+ * @donate https://bfkh.ru/
  */
 module.exports = class MyPlugin {
   constructor(meta) {
