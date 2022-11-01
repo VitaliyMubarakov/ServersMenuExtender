@@ -57,7 +57,13 @@ module.exports = class MyPlugin {
 
         if (!m?.addedNodes[0].parentElement) continue;
         if (!m?.addedNodes[0].children[0]) continue;
-        //console.log(m?.addedNodes[0].children[0].parentElement);
+        console.log("m?.addedNodes[0].children[0].parentElement -------------");
+        console.log(m?.addedNodes[0].children[0].parentElement);
+        let className = m?.addedNodes[0].children[0].parentElement.children[0].classList[0];
+        if (className && className == "listItem-3SmSlK") {
+          AddServerBlocks(m?.addedNodes[0].children[0].parentElement.children);
+          continue;
+        }
         if (m?.addedNodes[0].children[0].parentElement.children[0].className == "listItem-3SmSlK") {
           //console.log("ЛС --------------");
           AddServerBlocks(m?.addedNodes[0].children[0].parentElement.children);
@@ -80,7 +86,7 @@ module.exports = class MyPlugin {
       }
     });
 
-    mutationObserver.observe(scrollerda, {
+    mutationObserver.observe(scroller, {
       attributes: false,
       characterData: true,
       childList: true,
@@ -375,28 +381,27 @@ updateServers
       text-align: left;
       color: #DCDDDE;"
       ><div></div></div>`
-
       let str = "";
       var maxLength = 22;
       if (parent?.firstChild?.className == "guildSeparator-a4uisj") return;
       buttonType = Type.server;
-      
+      console.log(parent);
       if (parent?.parentElement?.className == "tutorialContainer-1pL9QS") { // Личные сообщения
-        //console.log("Личные");
+        console.log("Личные");
         buttonType = Type.ls;
         let e = parent?.querySelectorAll('.wrapper-3kah-n')[0];
         
         str = e.getAttribute("aria-label");
       }
       else if (parent?.parentElement.className == "wrapper-38slSD") { // Группы
-        //console.log("Группы");
+        console.log("Группы");
         buttonType = Type.group;
         serverPrefab.children[0].style.lineHeight = "48px";
         serverPrefab.children[0].style.fontWeight = "800";
         str = parent?.childNodes[1]?.getAttribute("data-dnd-name");;
       }
       else if (parent?.parentElement.className == "tutorialContainer-2jwoiB") { //Добавить сервер
-        //console.log("Добавить");
+        console.log("Добавить");
         buttonType = Type.addServer;
         serverPrefab.children[0].style.lineHeight = "48px";
         serverPrefab.children[0].style.fontWeight = "800";
@@ -406,7 +411,7 @@ updateServers
       }
       else if (parentLenght != -1 && i == parentLenght - 1 && parent?.nextSibling && parent?.nextSibling?.getAttribute("aria-hidden") != "") { //Публичные Сервера\
         
-        //console.log("Публичные: " + parent?.nextSibling);
+        console.log("Публичные: " + parent?.nextSibling);
         buttonType = Type.servers;
         serverPrefab.children[0].style.lineHeight = "48px";
         serverPrefab.children[0].style.fontWeight = "800";
@@ -414,12 +419,13 @@ updateServers
         
         str = e.getAttribute("aria-label");
       }
-      else if (parent?.childNodes[1]?.getAttribute("data-dnd-name") != "" && parent?.childNodes[1]?.className != "listItemWrapper-3d87LP") { //Сервер
-        //console.log("Сервер");
+      else if (parent?.childNodes[1]?.firstChild?.getAttribute("data-dnd-name") != "" && parent?.childNodes[1]?.firstChild.getAttribute("data-dnd-name") != null && parent?.childNodes[1]?.className != "listItemWrapper-3d87LP") { //Сервер
+        console.log("Сервер");
+        console.log(parent);
         str = parent?.childNodes[1]?.firstChild?.getAttribute("data-dnd-name") + "";
         let e = parent?.childNodes[1]?.firstChild?.firstChild.firstChild.lastChild.firstChild;
         
-        id = e.getAttribute("data-list-item-id")?.split('___');
+        id = e?.getAttribute("data-list-item-id")?.split('___');
 
         if (!id) return;
 
@@ -449,11 +455,12 @@ updateServers
         serverPrefab.children[0].classList.add("NonCenter");
       }
 
-      else if (parent?.childNodes[1]?.className == "listItemWrapper-3d87LP") { // Сообщение / звонок
+      else if (parent?.childNodes[1]?.classList[0] == "listItemWrapper-3d87LP") { // Сообщение / звонок
         parent?.classList.add("NonCentaaer");
         buttonType = Type.msg;
         
         str = parent?.childNodes[1]?.firstChild?.firstChild?.childNodes[3].firstChild?.getAttribute("aria-label") + "";
+        console.log(str);
       }
       if(str.length > maxLength){
         str = trimFileName(str, 20, "...")
@@ -461,7 +468,6 @@ updateServers
 
       let ea;
       serverPrefab.children[0].children[0].prepend(document.createTextNode(str));
-
       function checkType() {
         
         switch (buttonType) {
@@ -576,8 +582,11 @@ updateServers
       
       if (!parent) return;
       const e = parent;
-
-      e.appendChild(serverPrefab);
+      console.log("Содержит ли");
+      
+      let isThere = e.querySelector(".serverPrefab");
+      console.log(e.contains(serverPrefab));
+      if (!isThere) e.appendChild(serverPrefab);
     }
 
     //Понятно, даун.......
