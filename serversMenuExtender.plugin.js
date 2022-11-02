@@ -1,6 +1,7 @@
 /**
  * @name ServersMenuExtender
  * @author i3sN
+ * @authorId 278543574059057154
  * @description Open your servers panel.
  * @version 1.0.3
  * @website https://github.com/VitaliyMubarakov
@@ -13,6 +14,8 @@ module.exports = class MyPlugin {
   }
   
   start() {
+    let lang = document.documentElement.lang.substring(0,2);
+    //console.log(lang);
     //НЕ СМОТРИТЕ СЮДА! Я уже сам не понимаю смысл текста ниже...
     let body = document.getElementsByTagName("html")[0];
     let discordMenu = document.createElement("div");
@@ -57,31 +60,30 @@ module.exports = class MyPlugin {
 
         if (!m?.addedNodes[0].parentElement) continue;
         if (!m?.addedNodes[0].children[0]) continue;
-        console.log("m?.addedNodes[0].children[0].parentElement -------------");
-        console.log(m?.addedNodes[0].children[0].parentElement);
+
         let className = m?.addedNodes[0].children[0].parentElement.children[0].classList[0];
         if (className && className == "listItem-3SmSlK") {
           AddServerBlocks(m?.addedNodes[0].children[0].parentElement.children);
           continue;
         }
         if (m?.addedNodes[0].children[0].parentElement.children[0].className == "listItem-3SmSlK") {
-          //console.log("ЛС --------------");
+          // console.log("ЛС --------------");
           AddServerBlocks(m?.addedNodes[0].children[0].parentElement.children);
           continue;
         }
         if (m?.addedNodes[0].children[0].parentElement.className == "wrapper-3kah-n") {
-          //console.log("блок переместили --------------");
+          // console.log("блок переместили --------------");
           AddServerBlocks(m?.addedNodes[0].children[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children);
           continue;
         }
         if (m?.addedNodes[0].children[0].parentElement.className == "listItem-3SmSlK") {
-          //console.log("блок положили --------------");
+          // console.log("блок положили --------------");
           updateServers();
           AddServerBlock(m?.addedNodes[0].children[0].parentElement, 0, -1);
           continue;
         }
         if (!m?.addedNodes[0].children[0].parentElement.id.includes("folder-items")) continue;
-        //console.log("Папку изменили --------------");
+          // console.log("Папку изменили --------------");
           AddServerBlocks(m?.addedNodes[0].children[0].parentElement.children);
       }
     });
@@ -385,23 +387,26 @@ updateServers
       var maxLength = 22;
       if (parent?.firstChild?.className == "guildSeparator-a4uisj") return;
       buttonType = Type.server;
-      console.log(parent);
+
       if (parent?.parentElement?.className == "tutorialContainer-1pL9QS") { // Личные сообщения
-        console.log("Личные");
+        //console.log("Личные");
         buttonType = Type.ls;
         let e = parent?.querySelectorAll('.wrapper-3kah-n')[0];
         
         str = e.getAttribute("aria-label");
       }
       else if (parent?.parentElement.className == "wrapper-38slSD") { // Группы
-        console.log("Группы");
+        //console.log("Группы");
         buttonType = Type.group;
         serverPrefab.children[0].style.lineHeight = "48px";
         serverPrefab.children[0].style.fontWeight = "800";
         str = parent?.childNodes[1]?.getAttribute("data-dnd-name");;
+
+        
+        
       }
       else if (parent?.parentElement.className == "tutorialContainer-2jwoiB") { //Добавить сервер
-        console.log("Добавить");
+        //console.log("Добавить");
         buttonType = Type.addServer;
         serverPrefab.children[0].style.lineHeight = "48px";
         serverPrefab.children[0].style.fontWeight = "800";
@@ -411,7 +416,7 @@ updateServers
       }
       else if (parentLenght != -1 && i == parentLenght - 1 && parent?.nextSibling && parent?.nextSibling?.getAttribute("aria-hidden") != "") { //Публичные Сервера\
         
-        console.log("Публичные: " + parent?.nextSibling);
+        //console.log("Публичные: " + parent?.nextSibling);
         buttonType = Type.servers;
         serverPrefab.children[0].style.lineHeight = "48px";
         serverPrefab.children[0].style.fontWeight = "800";
@@ -420,8 +425,8 @@ updateServers
         str = e.getAttribute("aria-label");
       }
       else if (parent?.childNodes[1]?.firstChild?.getAttribute("data-dnd-name") != "" && parent?.childNodes[1]?.firstChild.getAttribute("data-dnd-name") != null && parent?.childNodes[1]?.className != "listItemWrapper-3d87LP") { //Сервер
-        console.log("Сервер");
-        console.log(parent);
+        //console.log("Сервер");
+        openFolders();
         str = parent?.childNodes[1]?.firstChild?.getAttribute("data-dnd-name") + "";
         let e = parent?.childNodes[1]?.firstChild?.firstChild.firstChild.lastChild.firstChild;
         
@@ -446,8 +451,9 @@ updateServers
                 color: #b9bbbe;
                 "><p style="position: absolute;
             left: 15px;
-            top: 14px;
-            font-size: 12px;">${members} участников</p></div>
+            margin: 0;
+            margin-top: -3px;
+            font-size: 12px;">${members} ${Langs[lang] ? Langs[lang] : Langs[en]} </p></div>
                     </div>
                   `
         serverPrefab.children[0].children[0].insertAdjacentHTML('beforeend', membersBlock);
@@ -460,7 +466,6 @@ updateServers
         buttonType = Type.msg;
         
         str = parent?.childNodes[1]?.firstChild?.firstChild?.childNodes[3].firstChild?.getAttribute("aria-label") + "";
-        console.log(str);
       }
       if(str.length > maxLength){
         str = trimFileName(str, 20, "...")
@@ -501,7 +506,7 @@ updateServers
         if (!!ea) {
           ea.oncontextmenu = function () {
             setTimeout(() => {
-              let context = document.querySelector(".menu-1QACrS.styleFlexible-x0_sIC");
+              let context = document.querySelector("#guild-context");
 
               context.style.visibility = "visible";
             }, 330);
@@ -509,7 +514,7 @@ updateServers
 
           ea.onclick = (e) => {
             if (!buttonType.isopen) return;
-
+            
             setTimeout(() => {
               let mainFolder;
               let par = e.target?.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.parentElement;
@@ -530,12 +535,20 @@ updateServers
           }
         }
       }
+
+      function openFolders() {
+        if (menuIsOpen()) {
+          for (let i = 0; i < folders.length; i++) {
+            const e = folders[i];
+            e.style.width = "275px";
+          }
+        }
+      }
       checkType();
       
       serverPrefab.onclick = function () {
         checkType();
         ea.click();
-        
       }
 
       serverPrefab.onmouseenter = function () {
@@ -558,13 +571,13 @@ updateServers
         if (e.target.parentElement.className.split(" ")[0] == "serverPrefab") {
           FireEvent(ea, "contextmenu");
         setTimeout(() => {
-          let context = document.querySelector(".menu-1QACrS.styleFlexible-x0_sIC");
+          let context = document.querySelector("#guild-context");
           //context.parentElement.style.visibility = "hidden";
           let myHeight = window.innerHeight;
           let currentHeight = myHeight - e.pageY;
           let topOffset;
           if (currentHeight <= context.offsetHeight) {
-            topOffset = myHeight - context.offsetHeight - 20;
+            topOffset = myHeight - context?.offsetHeight - 20;
           }
           else {
             topOffset = e.pageY;
@@ -582,10 +595,9 @@ updateServers
       
       if (!parent) return;
       const e = parent;
-      console.log("Содержит ли");
       
       let isThere = e.querySelector(".serverPrefab");
-      console.log(e.contains(serverPrefab));
+
       if (!isThere) e.appendChild(serverPrefab);
     }
 
@@ -608,7 +620,7 @@ updateServers
           }
       }
     let darkPintStyle = document.createElement("style");
-    darkPintStyle.innerHTML = `.menu-1QACrS.styleFlexible-x0_sIC {
+    darkPintStyle.innerHTML = `#guild-context {
       visibility: hidden;
     }
     .ownButton {
@@ -723,4 +735,35 @@ function StartEvent( ElementId, EventName )
             ElementId.dispatchEvent( evObj );
         }
     }
+}
+
+var Langs = {
+  bg: "Членове", //"Bulgarian",
+  cs: "Členů", //"Czech",
+  da: "Medlemmer", //"Danish",
+  de: "Mitglieder", //"German",
+  el: "Μέλη", //"Greek",
+  en: "Members", //"English",
+  fi: "Jäsentä", //"Finnish",
+  fr: "Membres", //"French",
+  hi: "मेम्बर", //"Hindi",
+  hr: "Članova", //"Croatian",
+  hu: "Tag", //"Hungarian",
+  it: "Membri", //"Italian",
+  ja: "人", //"Japanese",
+  ko: "명", //"Korean",
+  lt: "Nariai", //"Lithuanian",
+  nl: "Leden", //"Dutch",
+  no: "medlemmer", //"Norwegian",
+  pl: "Członków", //"Polish",
+  pt: "Membros", //"Portuguese",
+  ro: "membri", //"Romanian",
+  ru: "Участников", //"Russian",
+  es: "Miembros", //"Spanish",
+  sv: "Medlemmar", //"Swedish",
+  th: "คน", //"Thai",
+  tr: "Üye", //"Turkish",
+  uk: "Учасників", //"Ukrainian",
+  vi: "Thành viên", //"Vietnamese",
+  zh: "位成员" //"Chinese"
 }
