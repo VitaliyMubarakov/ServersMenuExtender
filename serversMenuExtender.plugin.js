@@ -98,7 +98,7 @@ module.exports = class MyPlugin {
     });
 
     bar.innerHTML = `
-    <div style="width: 48px; height: 48px; padding-left: 12px;">
+    <div style="width: 48px; height: 48px; padding-left: 13px;">
         <div>
           <div class="ownButton"></div>
 
@@ -375,9 +375,9 @@ updateServers
       height: 46px;
       background-color: transparent;
       width: 198px;
-      font-family: Roboto;
-      font-size: 14px;
-      font-weight: 700;
+      font-family: 'Whitney';
+      font-size: 16px;
+      font-weight: 600;
       line-height: 48px;
       letter-spacing: 0em;
       text-align: left;
@@ -452,7 +452,7 @@ updateServers
                 "><p style="position: absolute;
             left: 15px;
             margin: 0;
-            margin-top: -3px;
+            margin-top: -4px;
             font-size: 12px;">${members} ${Langs[lang] ? Langs[lang] : Langs[en]} </p></div>
                     </div>
                   `
@@ -660,6 +660,11 @@ updateServers
   #list{
     font-size:  1.5em;
     margin-left: 90px;
+   }
+   .serverPrefab { 
+      font-family: 'Whitney' !important;
+      font-size: 16px !important;
+      font-weight: 600 !important;
    }
  
 .animals{
