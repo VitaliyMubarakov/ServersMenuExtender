@@ -98,7 +98,7 @@ module.exports = class MyPlugin {
     });
 
     bar.innerHTML = `
-    <div style="width: 48px; height: 48px; padding-left: 13px;">
+    <div id="bar" style="width: 48px; height: 48px; padding-left: 13px;">
         <div>
           <div class="ownButton"></div>
 
@@ -110,7 +110,7 @@ module.exports = class MyPlugin {
         </div>
     </div>`
     search.innerHTML = `
-    <div style="    
+    <div id="searchWrapper" style="    
       position: absolute; 
       width: 204px;
       height: 30px;
@@ -132,9 +132,11 @@ module.exports = class MyPlugin {
       if (!isSearch) updateSearchServers();
       toggleMenu();
     };
-    
-    scroller.prepend(bar);
-    scroller.prepend(search);
+    let isThere2 = scroller.querySelector("#bar");
+    let isThere3 = scroller.querySelector("#searchWrapper");
+
+    if (!isThere2) scroller.prepend(bar);
+    if (!isThere3) scroller.prepend(search);
     
     AddServerBlocks(items());
 
