@@ -698,7 +698,7 @@ module.exports = class MyPlugin {
    .serverPrefab { 
       color: white;
       font-family: "gg sans","Noto Sans","Helvetica Neue",Helvetica,Arial,sans-serif !important;
-      font-size: 16px !important;
+      font-size: 15px !important;
       font-weight: 700 !important;
    }
  
