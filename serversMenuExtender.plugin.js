@@ -696,9 +696,10 @@ module.exports = class MyPlugin {
     margin-left: 90px;
    }
    .serverPrefab { 
-      font-family: 'Whitney' !important;
+      color: white;
+      font-family: "gg sans","Noto Sans","Helvetica Neue",Helvetica,Arial,sans-serif !important;
       font-size: 16px !important;
-      font-weight: 600 !important;
+      font-weight: 700 !important;
    }
  
 .animals{
