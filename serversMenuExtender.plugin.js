@@ -208,7 +208,7 @@ module.exports = class MyPlugin {
         separatorWrapper.style.justifyContent = "left";
         separatorWrapper.style.marginLeft = "20px";
 
-        separatorWrapper.firstChild.style.width = "254px";
+        separatorWrapper.firstChild.style.width = "100%";
         notDevTools.classList.add("isOpen")
       } else {
         scrollerda.style.width = "72px";
