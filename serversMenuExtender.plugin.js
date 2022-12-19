@@ -14,11 +14,12 @@ module.exports = class MyPlugin {
   }
   
   start() {
+    
     let lang = document.documentElement.lang.substring(0,2);
-    //console.log(lang);
-    //НЕ СМОТРИТЕ СЮДА! Я уже сам не понимаю смысл текста ниже...
+
     let body = document.getElementsByTagName("html")[0];
     let discordMenu = document.createElement("div");
+    
     discordMenu.id = "discordMenu";
     body.prepend(discordMenu);
 
@@ -30,6 +31,9 @@ module.exports = class MyPlugin {
 
     var scroller = document.getElementsByClassName("scroller-3X7KbA none-2-_0dP scrollerBase-_bVAAt")[0];
     var folders = document.getElementsByClassName("expandedFolderBackground-1kSAf6");
+
+    var notDevTools = document.getElementsByClassName("notDevTools-1zkgfK")[0];
+    
     var foldersElements = [];
     var scrollerda = document.getElementsByClassName("wrapper-1_HaEi guilds-2JjMmN")[0];
 
@@ -55,39 +59,59 @@ module.exports = class MyPlugin {
 
       for (let i = 0; i < mutations.length; i++) {
         const m = mutations[i];
+
         if (!m) continue;
         if (!m?.addedNodes[0]) continue;
-
         if (!m?.addedNodes[0].parentElement) continue;
         if (!m?.addedNodes[0].children) continue;
         if (!m?.addedNodes[0].children[0]) continue;
 
         let className = m?.addedNodes[0].children[0].parentElement.children[0].classList[0];
+
         if (className && className == "listItem-3SmSlK") {
-          AddServerBlocks(m?.addedNodes[0].children[0].parentElement.children);
+          OnServerChange(m);
           continue;
         }
         if (m?.addedNodes[0].children[0].parentElement.children[0].className == "listItem-3SmSlK") {
           // console.log("ЛС --------------");
-          AddServerBlocks(m?.addedNodes[0].children[0].parentElement.children);
+          OnMessage(m);
           continue;
         }
         if (m?.addedNodes[0].children[0].parentElement.className == "wrapper-3kah-n") {
           // console.log("блок переместили --------------");
-          AddServerBlocks(m?.addedNodes[0].children[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children);
+          OnBlockDrag(m);
           continue;
         }
         if (m?.addedNodes[0].children[0].parentElement.className == "listItem-3SmSlK") {
           // console.log("блок положили --------------");
-          updateServers();
-          AddServerBlock(m?.addedNodes[0].children[0].parentElement, 0, -1);
+          OnBlockPlace(m);
           continue;
         }
-        if (!m?.addedNodes[0].children[0].parentElement.id.includes("folder-items")) continue;
+        if (m?.addedNodes[0].children[0].parentElement.id.includes("folder-items")) {
           // console.log("Папку изменили --------------");
-          AddServerBlocks(m?.addedNodes[0].children[0].parentElement.children);
+          OnFolderChange()
+          continue;
+        } 
+          
       }
     });
+
+    function OnServerChange(mutation) {
+      AddServerBlocks(mutation?.addedNodes[0].children[0].parentElement.children);
+    }
+    function OnFolderChange(mutation) {
+      AddServerBlocks(mutation?.addedNodes[0].children[0].parentElement.children);
+    }
+    function OnMessage(mutation) {
+      AddServerBlocks(mutation?.addedNodes[0].children[0].parentElement.children);
+    }
+    function OnBlockDrag(mutation) {
+      AddServerBlocks(mutation?.addedNodes[0].children[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children);
+    }
+    function OnBlockPlace(mutation) {
+      updateServers();
+      AddServerBlock(mutation?.addedNodes[0].children[0].parentElement, 0, -1);
+    }
 
     mutationObserver.observe(scroller, {
       attributes: false,
@@ -185,6 +209,7 @@ module.exports = class MyPlugin {
         separatorWrapper.style.marginLeft = "20px";
 
         separatorWrapper.firstChild.style.width = "254px";
+        notDevTools.classList.add("isOpen")
       } else {
         scrollerda.style.width = "72px";
         for (let i = 0; i < folders.length; i++) {
@@ -197,11 +222,14 @@ module.exports = class MyPlugin {
         separatorWrapper.style.marginLeft = "";
 
         separatorWrapper.firstChild.style.width = "";
+        notDevTools.classList.remove("isOpen")
       }
       
     }
     
     function trimFileName(str, noOfChars, appendix) {
+      return truncate(str, noOfChars);
+
       let nameArray = str.split(".");
       let fileName = nameArray.join(" ");
 
@@ -210,6 +238,17 @@ module.exports = class MyPlugin {
       };
 
       return fileName;
+    }
+
+    function truncate(str, maxlength) {
+
+      if (str.length > maxlength) {
+          str = str.substring(0, maxlength-3);     // итоговая длина равна maxlength
+          return str + "...";
+          // В кодировке Unicode существует специальный символ «троеточие»: … (HTML: &hellip;)
+      }
+      else
+      return str;
     }
 
     //ЕБАТЬ ВЫ СМЕЛЫЙ...
@@ -502,7 +541,7 @@ module.exports = class MyPlugin {
         str = parent?.childNodes[1]?.firstChild?.firstChild?.childNodes[3].firstChild?.getAttribute("aria-label") + "";
       }
       if(str.length > maxLength){
-        str = trimFileName(str, 20, "...")
+        str = trimFileName(str, 25, "...")
       }
 
       let ea;
@@ -673,7 +712,9 @@ module.exports = class MyPlugin {
       align-items: center;
       line-height: initial !important;
     }
-    
+    .notDevTools-1zkgfK.isOpen .layer-2aCOJ3.disabledPointerEvents-2AmYRc {
+      left: 308px !important;
+    }
 
     #searchbar{
       background-color: transparent;
