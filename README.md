@@ -1,7 +1,5 @@
 # ServersMenuExtender
 
-<img src="https://user-images.githubusercontent.com/58411554/199322385-0109690b-f39f-4a74-bd27-ecf635b27120.gif"/>
-
 ### Open your servers menu
 
 ## Features
