@@ -3,7 +3,7 @@
  * @author i3sN
  * @authorId 278543574059057154
  * @description Open your servers panel.
- * @version 1.0.3
+ * @version 1.0.5
  * @website https://github.com/VitaliyMubarakov
  * @source https://github.com/VitaliyMubarakov/Menu/
  * @donate https://bfkh.ru/
@@ -14,7 +14,6 @@ module.exports = class MyPlugin {
   }
   
   start() {
-    
     let lang = document.documentElement.lang.substring(0,2);
 
     let body = document.getElementsByTagName("html")[0];
@@ -29,7 +28,7 @@ module.exports = class MyPlugin {
     let allServersElements = Array.from(document.getElementsByClassName("listItem-3SmSlK"));
     serversElements = allServersElements.filter(e => e.parentElement?.nextSibling?.className == "tutorialContainer-2jwoiB");
 
-    var scroller = document.getElementsByClassName("scroller-3X7KbA none-2-_0dP scrollerBase-_bVAAt")[0];
+    var scroller = document.getElementsByClassName("scroller-3X7KbA")[0];
     var folders = document.getElementsByClassName("expandedFolderBackground-1kSAf6");
 
     var notDevTools = document.getElementsByClassName("notDevTools-1zkgfK")[0];
@@ -243,9 +242,8 @@ module.exports = class MyPlugin {
     function truncate(str, maxlength) {
 
       if (str.length > maxlength) {
-          str = str.substring(0, maxlength-3);     // итоговая длина равна maxlength
+          str = str.substring(0, maxlength-3);
           return str + "...";
-          // В кодировке Unicode существует специальный символ «троеточие»: … (HTML: &hellip;)
       }
       else
       return str;
@@ -278,11 +276,9 @@ module.exports = class MyPlugin {
       let keyword = value;
       let search_results = serversNames
         .filter(prof => {
-            // Filter results by doing case insensitive match on name here
             return prof?.name?.toLowerCase()?.includes(keyword?.toLowerCase());
         })
         .sort((a, b) => {
-            // Sort results by matching name with keyword position in name
             if(a.name.toLowerCase().indexOf(keyword.toLowerCase()) > b.name.toLowerCase().indexOf(keyword.toLowerCase())) {
                 return 1;
             } else if (a.name.toLowerCase().indexOf(keyword.toLowerCase()) < b.name.toLowerCase().indexOf(keyword.toLowerCase())) {
@@ -774,7 +770,7 @@ module.exports = class MyPlugin {
 };
 
 function RemoveAll() {
-  let id = setInterval(() => {
+  // .let id = setInterval(() => {
     let scrollerda = document.getElementsByClassName("wrapper-1_HaEi guilds-2JjMmN")[0];
     let separatorWrapper = Array.from(document.getElementsByClassName("listItem-3SmSlK")).find(e => e.firstChild.className == "guildSeparator-a4uisj");
     let folders = document.getElementsByClassName("expandedFolderBackground-1kSAf6");
@@ -785,7 +781,7 @@ function RemoveAll() {
       document.querySelector('.ownButton').parentElement.parentElement.parentElement.remove();
       searchInput.value = "";
       StartEvent(searchInput, "change");
-      setTimeout(() => {
+      //setTimeout(() => {
         document.querySelector('.searchBar').remove();
         document.querySelector('#discordMenu').remove();
 
@@ -803,12 +799,12 @@ function RemoveAll() {
         
         searchInput.addEventListener("input", (e) => inputLogic(e));
         searchInput.addEventListener("change", (e) => inputLogic(e));
-        clearInterval(id);
-      }, 200);
+        //clearInterval(id);
+      //}, 200);
       
     } 
 
-  }, 500);
+  // }, 500);
 }
 
 function StartEvent( ElementId, EventName )
