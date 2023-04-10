@@ -23,23 +23,26 @@ You have to understand that the plugin has bugs that I have not noticed, althoug
 The plugin itself, I made in November, but as the plugin to moderation, I decided to publish it now, as I am not sure of the date of official publication, which would allow to automatically update the plugin.
 In the future I want to make visible not only the number of participants, but also the current online server, but with this there are technical difficulties.
 
-Installing
+## Installing
 - If there is no BetterDiscord
 
-Download installer
+- Download installer
 
-Run the .exe and install the version according to your Discord (Release, Public Test Build, Canary).
+- Run the .exe and install the version according to your Discord (Release, Public Test Build, Canary).
 
-Restart Discord if it didn't do it by itself.
+- Restart Discord if it didn't do it by itself.
 
 Done, there are new items in the settings.
 - If BetterDiscord is already installed.
 
-In the menu items select "Open plugins folder".
+- In the menu items select "Open plugins folder".
 
-Download the plugin
+- Download the plugin
 
 ( code -> Download ZIP ), unpack the archive and put the file "serversMenuExtender.plugin.js" in the opened folder.
-7. Turn it on in the settings Better Discord.
+
+- Turn it on in the settings Better Discord.
+
 Congratulations, the plugin is installed.
+
 If you want, you can like project on the github, I'll be grateful.
