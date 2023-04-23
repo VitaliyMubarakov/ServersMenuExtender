@@ -8,14 +8,14 @@ You have to understand that the plugin has bugs that I have not noticed.
 
 In the future I want to make visible not only the number of participants, but also the current online server, but with this there are technical difficulties.
 
+## Screenshots
+<img src="https://user-images.githubusercontent.com/58411554/208442399-46bd07f8-b66d-4f22-8462-0873118e00cf.gif" width="720" height="405"/>
+
 ## Features
 - Search servers
 - Uses the original color palette.
 - Display total server online
 - Full Localisation
-
-## Screenshots
-<img src="https://user-images.githubusercontent.com/58411554/208442399-46bd07f8-b66d-4f22-8462-0873118e00cf.gif" width="720" height="405"/>
 
 ## Functionality:
 - Search Servers
