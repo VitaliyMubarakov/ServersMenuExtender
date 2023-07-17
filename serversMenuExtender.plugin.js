@@ -31,7 +31,11 @@ let Langs;
 let mutationObserver;
 let all;
 let menuIsOpen;
-let darkPintStyle;
+let LangsSearch;
+let LangsMsg;
+let profileName;
+
+let isReloading = false;
 
 module.exports = class MyPlugin {
 	constructor(meta) {
@@ -39,45 +43,7 @@ module.exports = class MyPlugin {
 	}
 
 	start() {
-		Init()
-		CheckProps();
-
-		updateSearchServers();
-
-		mutationObserver.observe(scroller, {
-			attributes: false,
-			characterData: true,
-			childList: true,
-			subtree: true,
-			attributeOldValue: false,
-			characterDataOldValue: true
-		});
-
-		bar.onclick = function () {
-			if (!isSearch) updateSearchServers();
-			toggleMenu();
-		};
-		let isBarInit = scroller.querySelector("#bar");
-		let isSearchWrapperInit = scroller.querySelector("#searchWrapper");
-
-		if (!isBarInit) scroller.prepend(bar);
-		if (!isSearchWrapperInit) scroller.prepend(search);
-
-		const searchButt = document.getElementsByClassName("searchButt")[0];
-
-		searchButt.onmousedown = () => {
-			if (searchInput.value = "") return;
-
-			searchInput.value = "";
-			inputLogic(searchInput, false);
-		}
-
-		AddServerBlocks(items());
-
-		const searchInput = document.getElementById("searchbar");
-
-		searchInput.addEventListener("input", (e) => inputLogic(e));
-		searchInput.addEventListener("change", (e) => inputLogic(e));
+		Logic();
 	}
 
 	stop() {
@@ -98,10 +64,52 @@ function CheckProps(params) {
 
 		var variableName = Object.keys(obj)[i];
 
-		if (!arr[i]) console.log(" - ", variableName);
-
-
+		if (arr[i] === undefined || arr[i] === null) console.log(" - ", variableName);
 	}
+}
+
+function Logic() {
+	Init()
+	CheckProps();
+
+	updateSearchServers();
+
+	mutationObserver.observe(scroller, {
+		attributes: false,
+		characterData: true,
+		childList: true,
+		subtree: true,
+		attributeOldValue: false,
+		characterDataOldValue: true
+	});
+
+	bar.onclick = function () {
+		if (!isSearch) updateSearchServers();
+		toggleMenu();
+	};
+	let isBarInit = scroller.querySelector("#bar");
+	let isSearchWrapperInit = scroller.querySelector("#searchWrapper");
+
+	if (!isBarInit) scroller.prepend(bar);
+	if (!isSearchWrapperInit) scroller.prepend(search);
+
+	const searchButt = document.getElementsByClassName("searchButt")[0];
+
+	searchButt.onmousedown = () => {
+		if (searchInput.value = "") return;
+
+		searchInput.value = "";
+		inputLogic(searchInput, false);
+	}
+
+	AddServerBlocks(items());
+
+	const searchInput = document.getElementById("searchbar");
+
+	searchInput.addEventListener("input", (e) => inputLogic(e));
+	searchInput.addEventListener("change", (e) => inputLogic(e));
+
+	isReloading = false;
 }
 
 function Init() {
@@ -198,12 +206,53 @@ function Init() {
 		zh: "搜索" //"Chinese"
 	};
 
+	LangsMsg = {
+		bg: "Съобщение", //"Bulgarian",
+		cs: "Zpráva", //"Czech",
+		da: "Besked", //"Danish",
+		de: "Nachricht", //"German",
+		el: "Μήνυμα", //"Greek",
+		en: "Message", //"English",
+		fi: "Viesti", //"Finnish",
+		fr: "Message", //"French",
+		hi: "संदेश", //"Hindi",
+		hr: "Poruka", //"Croatian",
+		hu: "Üzenet", //"Hungarian",
+		it: "Messaggio", //"Italian",
+		ja: "メッセージ", //"Japanese",
+		ko: "메시지", //"Korean",
+		lt: "Pranešimas", //"Lithuanian",
+		nl: "Bericht", //"Dutch",
+		no: "Melding", //"Norwegian",
+		pl: "Wiadomość", //"Polish",
+		pt: "Mensagem", //"Portuguese",
+		ro: "Mesaj", //"Romanian",
+		ru: "Сообщение", //"Russian",
+		es: "Mensaje", //"Spanish",
+		sv: "Meddelande", //"Swedish",
+		th: "ข้อความ", //"Thai",
+		tr: "Mesaj", //"Turkish",
+		uk: "Повідомлення", //"Ukrainian",
+		vi: "Tin nhắn", //"Vietnamese",
+		zh: "消息" //"Chinese"
+	};
+
 	mutationObserver = new MutationObserver(function (mutations) {
 		for (let i = 0; i < mutations.length; i++) {
 			const m = mutations[i];
 
 			if (!m) continue;
 			if (!m?.addedNodes[0]) continue;
+
+			const newProfileName = document.getElementsByClassName("text-sm-normal-AEQz4v title-338goq")[0]?.innerHTML;
+
+			if (profileName && newProfileName && newProfileName != profileName && !isReloading) {
+				console.log("aahhhhhhhhhhhhhhhhhaaaaaaaaaaaaaaaaaaaaa");
+				isReloading = true;
+				RemoveAll();
+				Logic();
+			}
+
 			if (!m?.addedNodes[0].parentElement) continue;
 			if (!m?.addedNodes[0].children) continue;
 			if (!m?.addedNodes[0].children[0]) continue;
@@ -349,6 +398,10 @@ function Init() {
 	darkPintStyle.id = "darkPintStyle";
 
 	discordMenu.appendChild(darkPintStyle);
+
+	profileName = document.getElementsByClassName("text-sm-normal-AEQz4v title-338goq")[0].innerHTML;
+
+	console.log(profileName);
 }
 
 function RemoveAll() {
@@ -558,12 +611,17 @@ function searchByName(value) {
 	}
 	function onStartSearch() {
 		isSearch = true;
+		let arrFolders = folders[0]?.parentElement?.parentElement?.children;
 
-		all = Array.from(folders[0].parentElement.parentElement.children);
+		if (!arrFolders) return;
+
+		all = Array.from(arrFolders);
+
+		if (all.length <= 0) return;
 
 		for (let i = 0; i < folders.length; i++) {
-			for (let z = 0; z < folders[i].nextSibling.nextSibling.children.length; z++) {
-				const e = folders[i].nextSibling.nextSibling.children[z];
+			for (let z = 0; z < folders[i].nextSibling?.nextSibling?.children?.length; z++) {
+				const e = folders[i].nextSibling?.nextSibling?.children[z];
 				e.style.order = i;
 			}
 
@@ -677,6 +735,10 @@ function AddServerBlocks(arr) {
 }
 
 function AddServerBlock(parent, i, parentLenght = 1,) {
+	console.log(parent);
+	console.log(parent?.childNodes.length);
+	console.log(parent?.childNodes[1]);
+	console.log(parent?.childNodes[0]);
 	let buttonType;
 	let id = -1;
 	let serverPrefab = document.createElement("div");
@@ -735,7 +797,7 @@ function AddServerBlock(parent, i, parentLenght = 1,) {
 		serverPrefab.children[0].style.fontWeight = "800";
 		let e = parent?.querySelectorAll('.circleIconButton-1VxDrg')[0];
 
-		str = e.getAttribute("aria-label");
+		str = e?.getAttribute("aria-label");
 	}
 	else if (parent?.childNodes[1]?.firstChild?.getAttribute("data-dnd-name") != "" && parent?.childNodes[1]?.firstChild.getAttribute("data-dnd-name") != null && parent?.childNodes[1]?.className != "listItemWrapper-3d87LP") { //Сервер
 		//console.log("Сервер");
@@ -778,8 +840,16 @@ function AddServerBlock(parent, i, parentLenght = 1,) {
 		parent?.classList.add("NonCentaaer");
 		buttonType = Type.msg;
 
-		str = parent?.childNodes[1]?.firstChild?.firstChild?.childNodes[3].firstChild?.getAttribute("aria-label") + "";
+		const svgTag = parent?.childNodes[1]?.firstChild?.firstChild; //svg tag in msg block
+		let authorName = null;
+
+		svgTag?.childNodes?.forEach((e) => {
+			authorName = e?.firstChild?.getAttribute("aria-label");
+		});
+
+		str = authorName ? authorName + "" : LangsMsg[lang];
 	}
+
 	if (str.length > maxLength) {
 		str = trimFileName(str, 25, "...")
 	}
