@@ -31,8 +31,8 @@ module.exports = class MyPlugin {
     var scroller = document.getElementsByClassName("scroller-3X7KbA")[0];
     var folders = document.getElementsByClassName("expandedFolderBackground-1kSAf6");
 
-    var notDevTools = document.getElementsByClassName("notDevTools-1zkgfK")[0];
-    
+    var layerContainer = document.getElementsByClassName("layerContainer-2lfOPe")[0];
+
     var foldersElements = [];
     var scrollerda = document.getElementsByClassName("wrapper-1_HaEi guilds-2JjMmN")[0];
 
@@ -208,7 +208,7 @@ module.exports = class MyPlugin {
         separatorWrapper.style.marginLeft = "20px";
 
         separatorWrapper.firstChild.style.width = "100%";
-        notDevTools.classList.add("isOpen")
+        layerContainer.classList.add("isOpen")
       } else {
         scrollerda.style.width = "72px";
         for (let i = 0; i < folders.length; i++) {
@@ -221,7 +221,7 @@ module.exports = class MyPlugin {
         separatorWrapper.style.marginLeft = "";
 
         separatorWrapper.firstChild.style.width = "";
-        notDevTools.classList.remove("isOpen")
+        layerContainer.classList.remove("isOpen")
       }
       
     }
@@ -708,7 +708,7 @@ module.exports = class MyPlugin {
       align-items: center;
       line-height: initial !important;
     }
-    .notDevTools-1zkgfK.isOpen .layer-2aCOJ3.disabledPointerEvents-2AmYRc {
+    .layerContainer-2lfOPe.isOpen .layer-2BGhQ8.disabledPointerEvents-cGr1My {
       left: 308px !important;
     }
 
