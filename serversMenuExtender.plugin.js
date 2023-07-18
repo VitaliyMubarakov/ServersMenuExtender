@@ -3,7 +3,7 @@
  * @author i3sN
  * @authorId 278543574059057154
  * @description Open your servers panel.
- * @version 1.1.0
+ * @version 1.0.5
  * @website https://github.com/VitaliyMubarakov
  * @source https://github.com/VitaliyMubarakov/Menu/
  * @donate https://bfkh.ru/
@@ -35,7 +35,8 @@ let LangsSearch;
 let LangsMsg;
 let profileName;
 
-let isReloading = false;
+let isReloading;
+let closedFolders;
 
 module.exports = class MyPlugin {
 	constructor(meta) {
@@ -72,7 +73,7 @@ function Logic() {
 	Init()
 	CheckProps();
 
-	updateSearchServers();
+	updateSearchServers(true);
 
 	mutationObserver.observe(scroller, {
 		attributes: false,
@@ -84,9 +85,10 @@ function Logic() {
 	});
 
 	bar.onclick = function () {
-		if (!isSearch) updateSearchServers();
+		if (!isSearch) updateSearchServers(true);
 		toggleMenu();
 	};
+
 	let isBarInit = scroller.querySelector("#bar");
 	let isSearchWrapperInit = scroller.querySelector("#searchWrapper");
 
@@ -247,7 +249,6 @@ function Init() {
 			const newProfileName = document.getElementsByClassName("text-sm-normal-AEQz4v title-338goq")[0]?.innerHTML;
 
 			if (profileName && newProfileName && newProfileName != profileName && !isReloading) {
-				console.log("aahhhhhhhhhhhhhhhhhaaaaaaaaaaaaaaaaaaaaa");
 				isReloading = true;
 				RemoveAll();
 				Logic();
@@ -400,8 +401,8 @@ function Init() {
 	discordMenu.appendChild(darkPintStyle);
 
 	profileName = document.getElementsByClassName("text-sm-normal-AEQz4v title-338goq")[0].innerHTML;
-
-	console.log(profileName);
+	isReloading = false;
+	closedFolders = [];
 }
 
 function RemoveAll() {
@@ -550,7 +551,7 @@ function truncate(str, maxlength) {
 
 function searchByName(value) {
 	updateServers();
-	updateSearchServers();
+	updateSearchServers(false);
 	onStartSearch();
 
 	if (serversElementsInGroups.length > 0) serversElements = serversElements.concat(serversElementsInGroups);
@@ -656,6 +657,11 @@ function searchByName(value) {
 
 		}
 		setIcon(true);
+		closedFolders.forEach(e => {
+			e.click();
+		});
+
+		closedFolders = [];
 		return;
 	}
 
@@ -676,18 +682,33 @@ function searchByName(value) {
 
 }
 
-function updateSearchServers() {
+function updateSearchServers(isCouldOpen = false) {
+	console.log("раскрыть");
 	for (let i = 0; i < allServersElements.length; i++) {
 		const e = allServersElements[i];
 
 		let ea = e.querySelectorAll('.folderIconWrapper-1oRIZr')[0];
 		if (!ea) continue;
 
-		if (ea.parentElement.getAttribute("aria-expanded") == "false") ea.click();
+		if (ea.parentElement.getAttribute("aria-expanded") == "false") {
+			closedFolders.push(ea);
+			console.log("=============== Dobavil");
+			ea.click();
+		}
 
 	}
+	console.log("вроде");
 	setTimeout(() => {
 		serversElementsInGroups = allServersElements.filter(e => (e.parentElement?.id.includes("folder-items")));
+
+		if (!isCouldOpen) return;
+
+		closedFolders.forEach(e => {
+			e.click();
+		});
+
+		closedFolders = [];
+
 	}, 50);
 
 }
@@ -729,16 +750,14 @@ function updateServers() {
 function AddServerBlocks(arr) {
 	updateServers();
 
+	if (!arr) return;
+
 	for (let i = 0; i < arr.length; i++) {
 		AddServerBlock(arr[i], i, arr.length);
 	}
 }
 
 function AddServerBlock(parent, i, parentLenght = 1,) {
-	console.log(parent);
-	console.log(parent?.childNodes.length);
-	console.log(parent?.childNodes[1]);
-	console.log(parent?.childNodes[0]);
 	let buttonType;
 	let id = -1;
 	let serverPrefab = document.createElement("div");
@@ -844,13 +863,13 @@ function AddServerBlock(parent, i, parentLenght = 1,) {
 		let authorName = null;
 
 		svgTag?.childNodes?.forEach((e) => {
-			authorName = e?.firstChild?.getAttribute("aria-label");
+			if (authorName == null || authorName == undefined) authorName = e?.firstChild?.getAttribute("aria-label");
 		});
 
 		str = authorName ? authorName + "" : LangsMsg[lang];
 	}
 
-	if (str.length > maxLength) {
+	if (str && str.length > maxLength) {
 		str = trimFileName(str, 25, "...")
 	}
 
