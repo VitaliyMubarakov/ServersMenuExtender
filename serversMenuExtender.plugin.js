@@ -33,14 +33,14 @@ let all;
 let menuIsOpen;
 let LangsSearch;
 let LangsMsg;
+let darkPintStyle;
 let profileName;
-
 let isReloading;
 let closedFolders;
 
 module.exports = class MyPlugin {
 	constructor(meta) {
-		console.log("Con -============================================");
+
 	}
 
 	start() {
@@ -59,14 +59,18 @@ function CheckProps(params) {
 
 	let obj = { lang, body, servers, serversElementsInGroups, allServersElements, serversElements, scroller, folders, layerContainer, foldersElements, scrollerda, separatorWrapper, items, bar, isSearch, search, Type, Langs, mutationObserver, all, menuIsOpen, discordMenu, darkPintStyle };
 
-	console.log("[Servers Menu Extender Plugin] Not found elements: ");
 
+	let errors = [];
 	for (let i = 0; i < arr.length; i++) {
-
-		var variableName = Object.keys(obj)[i];
-
-		if (arr[i] === undefined || arr[i] === null) console.log(" - ", variableName);
+		if (arr[i] === undefined || arr[i] === null) {
+			errors.push(Object.keys(obj)[i]);
+		}
 	}
+
+	if (errors.length > 0) console.log("[Servers Menu Extender Plugin] Not found elements: ");
+	errors.forEach(e => {
+		console.log(" - ", e);
+	});
 }
 
 function Logic() {
@@ -132,7 +136,7 @@ function Init() {
 	scroller = document.getElementsByClassName("scroller-3X7KbA")[0];
 	folders = document.getElementsByClassName("expandedFolderBackground-1kSAf6");
 
-	layerContainer = document.getElementsByClassName("layerContainer-2lfOPe")[0];
+	layerContainer = document.getElementsByClassName("layerContainer-2lfOPe");
 
 	foldersElements = [];
 	scrollerda = document.getElementsByClassName("wrapper-1_HaEi guilds-2JjMmN")[0];
@@ -495,6 +499,7 @@ function toggleMenu() {
 }
 
 function setMenu(is) {
+	let layerContainers = Array.from(layerContainer);
 	if (is) {
 		scrollerda.style.width = "300px";
 
@@ -508,7 +513,9 @@ function setMenu(is) {
 		separatorWrapper.style.marginLeft = "20px";
 
 		separatorWrapper.firstChild.style.width = "100%";
-		layerContainer.classList.add("isOpen")
+		layerContainers.forEach(e => {
+			e.classList.add("isOpen")
+		});
 	} else {
 		scrollerda.style.width = "72px";
 		for (let i = 0; i < folders.length; i++) {
@@ -521,7 +528,10 @@ function setMenu(is) {
 		separatorWrapper.style.marginLeft = "";
 
 		separatorWrapper.firstChild.style.width = "";
-		layerContainer.classList.remove("isOpen")
+
+		layerContainers.forEach(e => {
+			e.classList.remove("isOpen")
+		});
 	}
 
 }
@@ -683,7 +693,6 @@ function searchByName(value) {
 }
 
 function updateSearchServers(isCouldOpen = false) {
-	console.log("раскрыть");
 	for (let i = 0; i < allServersElements.length; i++) {
 		const e = allServersElements[i];
 
@@ -692,12 +701,11 @@ function updateSearchServers(isCouldOpen = false) {
 
 		if (ea.parentElement.getAttribute("aria-expanded") == "false") {
 			closedFolders.push(ea);
-			console.log("=============== Dobavil");
 			ea.click();
 		}
 
 	}
-	console.log("вроде");
+
 	setTimeout(() => {
 		serversElementsInGroups = allServersElements.filter(e => (e.parentElement?.id.includes("folder-items")));
 
