@@ -417,7 +417,11 @@ function RemoveAll() {
 	const searchInput = document.getElementById("searchbar");
 
 	if (scrollerda && separatorWrapper) {
+		let but = document.querySelector('.ownButton');
+		if (!but) return;
+
 		document.querySelectorAll('.serverPrefab').forEach(e => e.remove());
+
 		document.querySelector('.ownButton').parentElement.parentElement.parentElement.remove();
 		searchInput.value = "";
 		StartEvent(searchInput, "change");
