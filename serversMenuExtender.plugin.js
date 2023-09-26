@@ -304,9 +304,9 @@ function Init() {
           <div class="ownButton"></div>
 
           <svg class="homeIcon-r0w4ny" aria-hidden="true" role="img" width="28" height="20" viewBox="0 0 28 20" style="transform: translate(50%, 60%); pointer-events: none;">
-          <path d="M1.06567 1.44049H15.7323" stroke="#DCDDDE" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/>
-          <path d="M1.06567 6.94049H15.7323" stroke="#DCDDDE" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/>
-          <path d="M1.06567 12.4405H15.7323" stroke="#DCDDDE" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/>
+          <path d="M1.06567 1.44049H15.7323" stroke="var(--text-primary)" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/>
+          <path d="M1.06567 6.94049H15.7323" stroke="var(--text-primary)" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/>
+          <path d="M1.06567 12.4405H15.7323" stroke="var(--text-primary)" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/>
           </svg>
         </div>
     </div>`;
@@ -317,8 +317,8 @@ function Init() {
       width: 204px;
       height: 30px;
       padding-left: 8px;
-      background-color: #292B2F;
-      color: #838487;
+      background-color: var(--background-secondary);
+      color: var(--text-normal);
       top: 9px;
       left: 74px;
       line-height: 30px;
@@ -345,7 +345,7 @@ function Init() {
 		border-radius: 4px;
 	}
 	.ownButton:hover {
-		background-color: #292B2F;
+		background-color: var(--background-modifier-hover);
 	}
 	.NonCenter {
 		display: flex;
@@ -360,13 +360,13 @@ function Init() {
 		background-color: transparent;
 		border: none;
 		width: 80%;
-		color: #838487;
+		color: var(--text-tertiary);
 		font-size: 14px;
 		font-weight: 600;
 	}
 
 	#searchbar::placeholder {
-		color: #838487;
+		color: var(--text-low-contrast);
 		font-size: 14px;
 		font-weight: 600;
 		
@@ -377,7 +377,7 @@ function Init() {
     margin-left: 90px;
    }
    .serverPrefab { 
-      color: white;
+      color: var(--text-primary);
       font-family: "gg sans","Noto Sans","Helvetica Neue",Helvetica,Arial,sans-serif !important;
       font-size: 15px !important;
       font-weight: 700 !important;
@@ -391,7 +391,7 @@ function Init() {
   }
   .searchButtonSvg {
     width: 20px;
-    fill: #818285;
+    fill: var(--channel-icon);
   }
   .isSearch {
     margin-top: 1px;
@@ -787,7 +787,7 @@ function AddServerBlock(parent, i, parentLenght = 1,) {
 	line-height: 48px;
 	letter-spacing: 0em;
 	text-align: left;
-	color: #DCDDDE;"
+	color: var(--interactive-active);"
 	><div></div></div>`
 	let str = "";
 	var maxLength = 22;
@@ -847,18 +847,17 @@ function AddServerBlock(parent, i, parentLenght = 1,) {
 				height: 12px;
 				margin-top: 9px;
 				width: 200px;
-				background-color: transparent;
-				opacity: 75%;
+				background-color: var(--background-secondary);
 				"><div style="
-						background-color: #B9BBBE;
+						background-color: var(--text-positive);
 						height: 8px;
 						width: 8px;
 						border-radius: 17px;
-						color: #b9bbbe;
 						"><p style="position: absolute;
 				left: 15px;
 				margin: 0;
 				margin-top: -4px;
+				color: var(--text-positive);
 				font-size: 12px;">${members} ${Langs[lang]} </p></div>
 								</div>
 							`
