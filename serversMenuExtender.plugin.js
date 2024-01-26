@@ -700,7 +700,7 @@ function updateSearchServers(isCouldOpen = false) {
 	for (let i = 0; i < allServersElements.length; i++) {
 		const e = allServersElements[i];
 
-		let ea = e.querySelectorAll('.folderIconWrapper-1oRIZr')[0];
+		let ea = e.querySelectorAll('.folderIconWrapper__72239')[0];
 		if (!ea) continue;
 
 		if (ea.parentElement.getAttribute("aria-expanded") == "false") {
@@ -730,7 +730,7 @@ function updateServers() {
 		foldersElements.push(folders[i].nextSibling.nextSibling);
 	}
 	allServersElements = Array.from(document.getElementsByClassName("listItem_fa7b36"));
-	serversElements = allServersElements.filter(e => e.parentElement?.nextSibling?.className == "tutorialContainer-2jwoiB");
+	serversElements = allServersElements.filter(e => e.parentElement?.nextSibling?.className == "tutorialContainer_dc6fde");
 
 	servers = [];
 	var MemberCountStore = BdApi.findModuleByProps('getMemberCount');
@@ -899,7 +899,7 @@ function AddServerBlock(parent, i, parentLenght = 1,) {
 				ea = parent?.querySelectorAll('.wrapper-3kah-n')[0];
 				break;
 			case Type.group:
-				ea = parent?.querySelectorAll('.folderIconWrapper-1oRIZr')[0];
+				ea = parent?.querySelectorAll('.folderIconWrapper__72239')[0];
 				buttonType.isopen = ea.parentElement.getAttribute("aria-expanded");
 				break;
 			case Type.addServer:
@@ -932,9 +932,9 @@ function AddServerBlock(parent, i, parentLenght = 1,) {
 					let mainFolder;
 					let par = e.target?.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.parentElement;
 
-					if (e.target.className == "expandedFolderIconWrapper-3RwQpD") {
+					if (e.target.className == "folderIconWrapper__72239") {
 						mainFolder = par?.parentElement;
-					} else if (e.target.className == "closedFolderIconWrapper-3tRb2d") {
+					} else if (e.target.className == "closedFolderIconWrapper__7321f") {
 						mainFolder = par?.parentElement;
 					} else {
 						if (par) mainFolder = par;
