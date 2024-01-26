@@ -130,19 +130,19 @@ function Init() {
 	servers = [];
 	serversElements = [];
 	serversElementsInGroups = [];
-	allServersElements = Array.from(document.getElementsByClassName("listItem-3SmSlK"));
-	serversElements = allServersElements.filter(e => e.parentElement?.nextSibling?.className == "tutorialContainer-2jwoiB");
+	allServersElements = Array.from(document.getElementsByClassName("listItem_fa7b36"));
+	serversElements = allServersElements.filter(e => e.parentElement?.nextSibling?.className == "tutorialContainer_dc6fde");
 
-	scroller = document.getElementsByClassName("scroller-3X7KbA")[0];
-	folders = document.getElementsByClassName("expandedFolderBackground-1kSAf6");
+	scroller = document.getElementsByClassName("scroller__3d071")[0];
+	folders = document.getElementsByClassName("expandedFolderBackground__1bec6");
 
-	layerContainer = document.getElementsByClassName("layerContainer-2lfOPe");
+	layerContainer = document.getElementsByClassName("layerContainer_d5a653");
 
 	foldersElements = [];
-	scrollerda = document.getElementsByClassName("wrapper-1_HaEi guilds-2JjMmN")[0];
+	scrollerda = document.getElementsByClassName("wrapper_a7e7a8 guilds__2b93a")[0];
 
-	separatorWrapper = Array.from(document.getElementsByClassName("listItem-3SmSlK")).find(e => e.firstChild.className == "guildSeparator-a4uisj");
-	items = () => document.getElementsByClassName("listItem-3SmSlK");
+	separatorWrapper = Array.from(document.getElementsByClassName("listItem_fa7b36")).find(e => e.firstChild.className == "guildSeparator_dcb3cc");
+	items = () => document.getElementsByClassName("listItem_fa7b36");
 
 	bar = document.createElement("div");
 	isSearch = false;
@@ -250,7 +250,7 @@ function Init() {
 			if (!m) continue;
 			if (!m?.addedNodes[0]) continue;
 
-			const newProfileName = document.getElementsByClassName("text-sm-normal-AEQz4v title-338goq")[0]?.innerHTML;
+			const newProfileName = document.getElementsByClassName("text-sm-normal_e612c7.title__10613")[0]?.innerHTML;
 
 			if (profileName && newProfileName && newProfileName != profileName && !isReloading) {
 				isReloading = true;
@@ -264,11 +264,11 @@ function Init() {
 
 			let className = m?.addedNodes[0].children[0].parentElement.children[0].classList[0];
 
-			if (className && className == "listItem-3SmSlK") {
+			if (className && className == "listItem_fa7b36") {
 				OnServerChange(m);
 				continue;
 			}
-			if (m?.addedNodes[0].children[0].parentElement.children[0].className == "listItem-3SmSlK") {
+			if (m?.addedNodes[0].children[0].parentElement.children[0].className == "listItem_fa7b36") {
 				// console.log("ЛС --------------");
 				OnMessage(m);
 				continue;
@@ -278,7 +278,7 @@ function Init() {
 				OnBlockDrag(m);
 				continue;
 			}
-			if (m?.addedNodes[0].children[0].parentElement.className == "listItem-3SmSlK") {
+			if (m?.addedNodes[0].children[0].parentElement.className == "listItem_fa7b36") {
 				// console.log("блок положили --------------");
 				OnBlockPlace(m);
 				continue;
@@ -404,7 +404,7 @@ function Init() {
 
 	discordMenu.appendChild(darkPintStyle);
 
-	profileName = document.getElementsByClassName("text-sm-normal-AEQz4v title-338goq")[0].innerHTML;
+	profileName = document.getElementsByClassName("text-sm-normal_e612c7 title__10613")[0].innerHTML;
 	isReloading = false;
 	closedFolders = [];
 }
@@ -412,7 +412,7 @@ function Init() {
 function RemoveAll() {
 	// .let id = setInterval(() => {
 	let scrollerda = document.getElementsByClassName("wrapper-1_HaEi guilds-2JjMmN")[0];
-	let separatorWrapper = Array.from(document.getElementsByClassName("listItem-3SmSlK")).find(e => e.firstChild.className == "guildSeparator-a4uisj");
+	let separatorWrapper = Array.from(document.getElementsByClassName("listItem_fa7b36")).find(e => e.firstChild.className == "guildSeparator-a4uisj");
 	let folders = document.getElementsByClassName("expandedFolderBackground-1kSAf6");
 	const searchInput = document.getElementById("searchbar");
 
@@ -729,7 +729,7 @@ function updateServers() {
 	for (let i = 0; i < folders.length; i++) {
 		foldersElements.push(folders[i].nextSibling.nextSibling);
 	}
-	allServersElements = Array.from(document.getElementsByClassName("listItem-3SmSlK"));
+	allServersElements = Array.from(document.getElementsByClassName("listItem_fa7b36"));
 	serversElements = allServersElements.filter(e => e.parentElement?.nextSibling?.className == "tutorialContainer-2jwoiB");
 
 	servers = [];
@@ -1026,4 +1026,3 @@ function FireEvent(ElementId, EventName) {
 		}
 	}
 }
-
