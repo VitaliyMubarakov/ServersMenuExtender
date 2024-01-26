@@ -273,7 +273,7 @@ function Init() {
 				OnMessage(m);
 				continue;
 			}
-			if (m?.addedNodes[0].children[0].parentElement.className == "wrapper-3kah-n") {
+			if (m?.addedNodes[0].children[0].parentElement.className == "wrapper_d281dd") {
 				// console.log("блок переместили --------------");
 				OnBlockDrag(m);
 				continue;
@@ -283,7 +283,7 @@ function Init() {
 				OnBlockPlace(m);
 				continue;
 			}
-			if (m?.addedNodes[0].children[0].parentElement.id.includes("folder-items")) {
+			if (m?.addedNodes[0].children[0].parentElement.attributes["aria-owns"].includes("folder-items")) {
 				// console.log("Папку изменили --------------");
 				OnFolderChange()
 				continue;
@@ -411,9 +411,9 @@ function Init() {
 
 function RemoveAll() {
 	// .let id = setInterval(() => {
-	let scrollerda = document.getElementsByClassName("wrapper-1_HaEi guilds-2JjMmN")[0];
-	let separatorWrapper = Array.from(document.getElementsByClassName("listItem_fa7b36")).find(e => e.firstChild.className == "guildSeparator-a4uisj");
-	let folders = document.getElementsByClassName("expandedFolderBackground-1kSAf6");
+	let scrollerda = document.getElementsByClassName("wrapper_a7e7a8 guilds__2b93a")[0];
+	let separatorWrapper = Array.from(document.getElementsByClassName("listItem_fa7b36")).find(e => e.firstChild.className == "guildSeparator_dcb3cc");
+	let folders = document.getElementsByClassName("expandedFolderBackground__1bec6");
 	const searchInput = document.getElementById("searchbar");
 
 	if (scrollerda && separatorWrapper) {
@@ -711,7 +711,7 @@ function updateSearchServers(isCouldOpen = false) {
 	}
 
 	setTimeout(() => {
-		serversElementsInGroups = allServersElements.filter(e => (e.parentElement?.id.includes("folder-items")));
+		serversElementsInGroups = allServersElements.filter(e => (e.parentElement?.attributes["aria-owns"].includes("folder-items")));
 
 		if (!isCouldOpen) return;
 
@@ -791,17 +791,17 @@ function AddServerBlock(parent, i, parentLenght = 1,) {
 	><div></div></div>`
 	let str = "";
 	var maxLength = 22;
-	if (parent?.firstChild?.className == "guildSeparator-a4uisj") return;
+	if (parent?.firstChild?.className == "guildSeparator_dcb3cc") return;
 	buttonType = Type.server;
 
-	if (parent?.parentElement?.className == "tutorialContainer-1pL9QS") { // Личные сообщения
+	if (parent?.parentElement?.className == "tutorialContainer__890ea") { // Личные сообщения
 		//console.log("Личные");
 		buttonType = Type.ls;
-		let e = parent?.querySelectorAll('.wrapper-3kah-n')[0];
+		let e = parent?.querySelectorAll('.wrapper_d281dd')[0];
 
 		str = e.getAttribute("aria-label");
 	}
-	else if (parent?.parentElement.className == "wrapper-38slSD") { // Группы
+	else if (parent?.parentElement.className == "wrapper_ed1dea") { // Группы
 		//console.log("Группы");
 		buttonType = Type.group;
 		serverPrefab.children[0].style.lineHeight = "48px";
@@ -811,12 +811,12 @@ function AddServerBlock(parent, i, parentLenght = 1,) {
 
 
 	}
-	else if (parent?.parentElement.className == "tutorialContainer-2jwoiB") { //Добавить сервер
+	else if (parent?.parentElement.className == "tutorialContainer_dc6fde") { //Добавить сервер
 		//console.log("Добавить");
 		buttonType = Type.addServer;
 		serverPrefab.children[0].style.lineHeight = "48px";
 		serverPrefab.children[0].style.fontWeight = "800";
-		let e = parent?.querySelectorAll('.circleIconButton-1VxDrg')[0];
+		let e = parent?.querySelectorAll('.circleIconButton_d8df29')[0];
 
 		str = e.getAttribute("aria-label");
 	}
@@ -826,11 +826,11 @@ function AddServerBlock(parent, i, parentLenght = 1,) {
 		buttonType = Type.servers;
 		serverPrefab.children[0].style.lineHeight = "48px";
 		serverPrefab.children[0].style.fontWeight = "800";
-		let e = parent?.querySelectorAll('.circleIconButton-1VxDrg')[0];
+		let e = parent?.querySelectorAll('.circleIconButton_d8df29')[0];
 
 		str = e?.getAttribute("aria-label");
 	}
-	else if (parent?.childNodes[1]?.firstChild?.getAttribute("data-dnd-name") != "" && parent?.childNodes[1]?.firstChild.getAttribute("data-dnd-name") != null && parent?.childNodes[1]?.className != "listItemWrapper-3d87LP") { //Сервер
+	else if (parent?.childNodes[1]?.firstChild?.getAttribute("data-dnd-name") != "" && parent?.childNodes[1]?.firstChild.getAttribute("data-dnd-name") != null && parent?.childNodes[1]?.className != "listItemWrapper__1f93b") { //Сервер
 		//console.log("Сервер");
 		openFolders();
 		str = parent?.childNodes[1]?.firstChild?.getAttribute("data-dnd-name") + "";
@@ -866,7 +866,7 @@ function AddServerBlock(parent, i, parentLenght = 1,) {
 		serverPrefab.children[0].classList.add("NonCenter");
 	}
 
-	else if (parent?.childNodes[1]?.classList[0] == "listItemWrapper-3d87LP") { // Сообщение / звонок
+	else if (parent?.childNodes[1]?.classList[0] == "listItemWrapper__1f93b") { // Сообщение / звонок
 		parent?.classList.add("NonCentaaer");
 		buttonType = Type.msg;
 
@@ -890,23 +890,23 @@ function AddServerBlock(parent, i, parentLenght = 1,) {
 
 		switch (buttonType) {
 			case Type.ls:
-				ea = parent?.querySelectorAll('.childWrapper-1j_1ub')[0];
+				ea = parent?.querySelectorAll('.childWrapper__01b9c')[0];
 				break;
 			case Type.server:
-				ea = parent?.querySelectorAll('.wrapper-3kah-n')[0];
+				ea = parent?.querySelectorAll('.wrapper_d281dd')[0];
 				break;
 			case Type.msg:
-				ea = parent?.querySelectorAll('.wrapper-3kah-n')[0];
+				ea = parent?.querySelectorAll('.wrapper_d281dd')[0];
 				break;
 			case Type.group:
 				ea = parent?.querySelectorAll('.folderIconWrapper__72239')[0];
 				buttonType.isopen = ea.parentElement.getAttribute("aria-expanded");
 				break;
 			case Type.addServer:
-				ea = parent?.querySelectorAll('.circleIconButton-1VxDrg')[0];
+				ea = parent?.querySelectorAll('.circleIconButton_d8df29')[0];
 				break;
 			case Type.servers:
-				ea = parent?.querySelectorAll('.circleIconButton-1VxDrg')[0];
+				ea = parent?.querySelectorAll('.circleIconButton_d8df29')[0];
 				break;
 			default:
 				break;
@@ -940,7 +940,7 @@ function AddServerBlock(parent, i, parentLenght = 1,) {
 						if (par) mainFolder = par;
 					}
 
-					let folderItems = mainFolder?.querySelectorAll("[id^='folder-items-']")[0]?.children;
+					let folderItems = mainFolder?.querySelectorAll("[aria-owns^='folder-items-']")[0]?.children;
 					updateServers();
 					AddServerBlocks(folderItems);
 
