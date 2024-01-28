@@ -3,7 +3,7 @@
  * @author i3sN
  * @authorId 278543574059057154
  * @description Open your servers panel.
- * @version 1.0.6
+ * @version 1.0.7
  * @website https://github.com/VitaliyMubarakov
  * @source https://github.com/VitaliyMubarakov/Menu/
  * @donate https://bfkh.ru/
