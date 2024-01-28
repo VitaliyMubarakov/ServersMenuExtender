@@ -3,7 +3,7 @@
  * @author i3sN
  * @authorId 278543574059057154
  * @description Open your servers panel.
- * @version 1.0.8
+ * @version 1.0.9
  * @website https://github.com/VitaliyMubarakov
  * @source https://github.com/VitaliyMubarakov/Menu/
  * @donate https://bfkh.ru/
@@ -849,7 +849,7 @@ function AddServerBlock(parent, i, parentLenght = 1,) {
 				width: 200px;
 				background-color: transparent;
 				"><div style="
-						background-color: var(--text-normal);
+						background-color: var(--primary-360);
 						height: 8px;
 						width: 8px;
 						border-radius: 17px;
@@ -857,7 +857,7 @@ function AddServerBlock(parent, i, parentLenght = 1,) {
 				left: 15px;
 				margin: 0;
 				margin-top: -4px;
-				color: var(--text-normal);
+				color: var(--primary-360);
 				font-size: 12px;">${members} ${Langs[lang]} </p></div>
 								</div>
 							`
